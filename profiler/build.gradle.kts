@@ -19,12 +19,13 @@ dependencies {
         exclude(group = "com.google.guava", module = "listenablefuture")
     }
     implementation(libs.guice)
-    implementation(libs.libthrift.v012)
+    implementation(libs.libthrift)
     implementation(libs.log4j.core.jdk7)
     implementation(libs.protobuf.java)
     implementation(libs.grpc.stub)
     implementation(libs.netty)
     implementation(libs.netty.common)
+    implementation(libs.caffeine)
     implementation(libs.grpc.core) {
         exclude(group = "io.opencensus", module = "opencensus-api")
         exclude(group = "io.opencensus", module = "opencensus-contrib-grpc-metrics")

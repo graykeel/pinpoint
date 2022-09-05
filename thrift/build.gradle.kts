@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(project(":pinpoint-commons"))
     implementation(project(":pinpoint-commons-buffer"))
-    implementation(libs.libthrift.v012)
+    implementation(libs.libthrift)
     implementation(libs.log4j.slf4j.impl.jdk7)
     implementation(libs.log4j.core.jdk7)
     implementation(libs.log4j.jcl.jdk7)

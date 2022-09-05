@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.asm.commons)
     implementation(libs.asm.util)
     implementation(libs.asm.tree)
-    implementation(libs.libthrift.v012)
+    implementation(libs.libthrift)
     implementation(libs.guice)
     implementation(libs.log4j.core.jdk7)
     implementation(libs.junit)
