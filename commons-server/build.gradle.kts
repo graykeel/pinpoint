@@ -24,6 +24,9 @@ dependencies {
     runtimeOnly(libs.log4j.jcl) {
         exclude(group = "commons-logging", module = "commons-logging")
     }
+    implementation(libs.jackson.core)
+    implementation(libs.jackson.annotations)
+    implementation(libs.jackson.databind)
     testImplementation(libs.awaitility)
     testImplementation(libs.spring.test)
     compileOnly(project(":pinpoint-thrift"))
