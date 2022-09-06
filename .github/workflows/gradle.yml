@@ -43,7 +43,7 @@ jobs:
         echo "JAVA_HOME=$JAVA_HOME_8_X64" >> $GITHUB_ENV
     - name: Java Environment
       run: env | grep '^JAVA'
-    - name: Build with Maven
+    - name: Build with Gradle
       run: ./gradlew assemble
     - name: Code coverage
       uses: codecov/codecov-action@v1
