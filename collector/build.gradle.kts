@@ -18,7 +18,7 @@ dependencies {
     implementation(project(":pinpoint-annotations"))
 
     implementation(libs.zookeeper)
-    implementation(libs.guava.jdk8)
+    implementation(libs.guava)
     implementation(libs.netty)
     implementation(libs.commons.lang3)
     implementation(libs.commons.collections4)

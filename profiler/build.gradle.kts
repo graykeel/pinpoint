@@ -15,12 +15,12 @@ dependencies {
     implementation(project(":pinpoint-plugins-loader"))
     implementation(project(":pinpoint-grpc"))
     implementation(project(":pinpoint-profiler-logging"))
-    implementation(libs.guava.jdk7) {
+    implementation(libs.guava) {
         exclude(group = "com.google.guava", module = "listenablefuture")
     }
     implementation(libs.guice)
     implementation(libs.libthrift)
-    implementation(libs.log4j.core.jdk7)
+    implementation(libs.log4j.core)
     implementation(libs.protobuf.java)
     implementation(libs.grpc.stub)
     implementation(libs.netty)

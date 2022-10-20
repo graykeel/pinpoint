@@ -18,7 +18,7 @@ dependencies {
     implementation(platform(project(":pinpoint-plugins")))
     implementation(platform(project(":pinpoint-agent-plugins")))
 
-    implementation(libs.guava.jdk8)
+    implementation(libs.guava)
     implementation(libs.netty)
     implementation(libs.zookeeper)
     implementation(libs.commons.lang3)
