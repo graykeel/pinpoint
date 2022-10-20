@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.mybatis)
     implementation(libs.mybatis.spring)
     implementation(libs.mysql.connector.java)
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     runtimeOnly("com.sun.activation:jakarta.activation:1.2.2")
     runtimeOnly(libs.slf4j.api)
     runtimeOnly(libs.log4j.jcl) {
