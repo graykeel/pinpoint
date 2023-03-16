@@ -16,11 +16,10 @@
 
 package com.navercorp.pinpoint.bootstrap.config;
 
+import com.navercorp.pinpoint.bootstrap.config.util.BypassResolver;
+import com.navercorp.pinpoint.bootstrap.config.util.ValueResolver;
 import com.navercorp.pinpoint.bootstrap.util.NumberUtils;
 import com.navercorp.pinpoint.common.annotations.VisibleForTesting;
-import com.navercorp.pinpoint.common.config.Value;
-import com.navercorp.pinpoint.common.config.util.BypassResolver;
-import com.navercorp.pinpoint.common.config.util.ValueResolver;
 import com.navercorp.pinpoint.common.util.StringUtils;
 import com.navercorp.pinpoint.common.util.logger.CommonLogger;
 import com.navercorp.pinpoint.common.util.logger.StdoutCommonLoggerFactory;
@@ -37,7 +36,7 @@ import java.util.regex.Pattern;
  * @author emeroad
  * @author netspider
  */
-public class DefaultProfilerConfig implements ProfilerConfig {
+public class DefaultProfilerConfig implements ProfilerConfig , ConfigOnChange {
     public static final String PROFILER_INTERCEPTOR_EXCEPTION_PROPAGATE = "profiler.interceptor.exception.propagate";
 
     private static final CommonLogger logger = StdoutCommonLoggerFactory.INSTANCE.getLogger(DefaultProfilerConfig.class.getName());
@@ -70,6 +69,7 @@ public class DefaultProfilerConfig implements ProfilerConfig {
     @Value("${profiler.jdbc.maxsqlbindvaluesize}")
     private int maxSqlBindValueSize = 1024;
 
+    private ConfigOnChange onChange;
 
     private HttpStatusCodeErrors httpStatusCodeErrors = new HttpStatusCodeErrors();
 
@@ -105,7 +105,6 @@ public class DefaultProfilerConfig implements ProfilerConfig {
     public void setTransportModule(String transportModule) {
         this.transportModule = TransportModule.parse(transportModule, DEFAULT_TRANSPORT_MODULE);
     }
-
 
 
     @Override
@@ -155,10 +154,18 @@ public class DefaultProfilerConfig implements ProfilerConfig {
         return applicationNamespace;
     }
 
-
     @Override
     public int getLogDirMaxBackupSize() {
         return logDirMaxBackupSize;
+    }
+
+    public void setConfigOnChange(ConfigOnChange onChange){
+        this.onChange = onChange;
+    }
+
+    @Override
+    public boolean onChange() {
+        return onChange.onChange();
     }
 
     @Override

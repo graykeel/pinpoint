@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.bootstrap.config;
 
-import com.navercorp.pinpoint.common.config.util.ValueAnnotationProcessor;
+import com.navercorp.pinpoint.bootstrap.config.util.ValueAnnotationProcessor;
 import com.navercorp.pinpoint.common.util.PropertyUtils;
 import com.navercorp.pinpoint.common.util.logger.CommonLogger;
 import com.navercorp.pinpoint.common.util.logger.StdoutCommonLoggerFactory;
@@ -52,7 +52,7 @@ public class ProfilerConfigLoader {
     }
 
     // for test
-    private static void loadPropertyValues(ProfilerConfig profilerConfig, Properties properties) {
+    public static void loadPropertyValues(ProfilerConfig profilerConfig, Properties properties) {
         ValueAnnotationProcessor processor = new ValueAnnotationProcessor();
         processor.process(profilerConfig, properties);
     }

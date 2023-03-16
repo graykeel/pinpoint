@@ -30,23 +30,27 @@ public class CountingSamplerFactory implements SamplerFactory {
 
     private final int samplingRate;
 
+    private ProfilerConfig profilerConfig;
+
     public CountingSamplerFactory(int samplingRate) {
         this.samplingRate = samplingRate;
     }
 
     public CountingSamplerFactory(Config config) {
         this(config.getSamplingRate());
+        this.profilerConfig = config.profilerConfig;
     }
 
     @Override
     public Sampler createSampler() {
-        if (samplingRate <= 0) {
-            return FalseSampler.INSTANCE;
-        }
-        if (samplingRate == 1) {
-            return TrueSampler.INSTANCE;
-        }
-        return new CountingSampler(samplingRate);
+//        if (samplingRate <= 0) {
+//            return FalseSampler.INSTANCE;
+//        }
+//        if (samplingRate == 1) {
+//            return TrueSampler.INSTANCE;
+//        }
+//        return new CountingSampler(samplingRate);
+        return new MixSampler(profilerConfig);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class CountingSamplerFactory implements SamplerFactory {
 
     public static Config config(ProfilerConfig profilerConfig) {
         int samplingRate = getSamplingRate(profilerConfig);
-        return new Config(samplingRate);
+        return new Config(samplingRate,profilerConfig);
     }
 
     private static int getSamplingRate(ProfilerConfig profilerConfig) {
@@ -72,8 +76,15 @@ public class CountingSamplerFactory implements SamplerFactory {
     public static class Config {
         private final int samplingRate;
 
-        public Config(int samplingRate) {
+        private ProfilerConfig profilerConfig;
+
+        public Config(int samplingRate,ProfilerConfig profilerConfig) {
             this.samplingRate = samplingRate;
+            this.profilerConfig = profilerConfig;
+        }
+
+        public ProfilerConfig getProfilerConfig(){
+            return profilerConfig;
         }
 
         public int getSamplingRate() {

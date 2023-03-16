@@ -17,22 +17,18 @@ package com.navercorp.pinpoint.bootstrap;
 import com.navercorp.pinpoint.ProductInfo;
 import com.navercorp.pinpoint.bootstrap.agentdir.AgentDirectory;
 import com.navercorp.pinpoint.bootstrap.agentdir.LogDirCleaner;
-import com.navercorp.pinpoint.bootstrap.banner.PinpointBannerImpl;
 import com.navercorp.pinpoint.bootstrap.classloader.PinpointClassLoaderFactory;
 import com.navercorp.pinpoint.bootstrap.classloader.ProfilerLibs;
-import com.navercorp.pinpoint.bootstrap.config.DefaultProfilerConfig;
-import com.navercorp.pinpoint.bootstrap.config.ProfilerConfig;
-import com.navercorp.pinpoint.bootstrap.config.ProfilerConfigLoader;
-import com.navercorp.pinpoint.bootstrap.config.PropertyLoader;
-import com.navercorp.pinpoint.bootstrap.config.PropertyLoaderFactory;
+import com.navercorp.pinpoint.bootstrap.config.*;
 import com.navercorp.pinpoint.common.Version;
 import com.navercorp.pinpoint.common.banner.PinpointBanner;
+import com.navercorp.pinpoint.bootstrap.banner.PinpointBannerImpl;
 import com.navercorp.pinpoint.common.util.OsEnvSimpleProperty;
 import com.navercorp.pinpoint.common.util.PropertySnapshot;
 import com.navercorp.pinpoint.common.util.SimpleProperty;
 import com.navercorp.pinpoint.common.util.StringUtils;
 import com.navercorp.pinpoint.common.util.SystemProperty;
-
+import java.io.File;
 import java.lang.instrument.Instrumentation;
 import java.net.URL;
 import java.nio.file.Path;
@@ -113,9 +109,45 @@ class PinpointStarter {
         final boolean isContainer = containerResolver.isContainer();
 
         try {
-            final Properties properties = loadProperties();
+            Properties properties = loadProperties();
 
-            ProfilerConfig profilerConfig = ProfilerConfigLoader.load(properties);
+            final ProfilerConfig profilerConfig = ProfilerConfigLoader.load(properties);
+
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        new WatchDir(new File(agentDirectory.getAgentDirPath().toString()), true, new FileActionCallback() {
+
+                            @Override
+                            public void modify(File file) {
+                                try {
+                                    if (file.isFile() && file.getName().endsWith("config")) {
+                                        Properties properties = loadProperties();
+                                        for (Object key:properties.keySet()){
+                                            if (key instanceof String){
+                                                String propertyKey = String.valueOf(key);
+                                                if (properties.getProperty(propertyKey)!=null){
+                                                    profilerConfig.getProperties().setProperty(propertyKey,properties.getProperty(propertyKey));
+                                                }
+                                            }
+                                        }
+                                        ProfilerConfigLoader.loadPropertyValues(profilerConfig, properties);
+                                        if (profilerConfig instanceof ConfigOnChange) {
+                                            ((ConfigOnChange) profilerConfig).onChange();
+                                        }
+                                        logger.info("config file hase changed\t" + file.getAbsolutePath());
+                                    }
+                                }catch (Exception e){
+                                    logger.error("config has changed,config load failed!!!\t"+e.getMessage());
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        logger.error("config has changed,config load failed!!!\t"+e.getMessage());
+                    }
+                }
+            }.start();
 
             // set the path of log file as a system property
             saveAgentIdForLog(agentIds);
@@ -299,7 +331,7 @@ class PinpointStarter {
         return PathUtils.toURLs(libUrlList);
     }
 
-    private static final String PINPOINT_PREFIX = "pinpoint-";
+    private static String PINPOINT_PREFIX = "pinpoint-";
 
     private List<Path> resolveLib(List<Path> urlList) {
         if (DEFAULT_AGENT.equalsIgnoreCase(getAgentType())) {
@@ -317,18 +349,14 @@ class PinpointStarter {
         // pinpoint module first
         for (Path path : releaseLib) {
             Path fileName = path.getFileName();
-            if(fileName != null) {
-                if (fileName.startsWith(PINPOINT_PREFIX)) {
-                    orderList.add(path);
-                }
+            if (fileName.startsWith(PINPOINT_PREFIX)) {
+                orderList.add(path);
             }
         }
         for (Path path : releaseLib) {
             Path fileName = path.getFileName();
-            if(fileName != null) {
-                if (!fileName.startsWith(PINPOINT_PREFIX)) {
-                    orderList.add(path);
-                }
+            if (!fileName.startsWith(PINPOINT_PREFIX)) {
+                orderList.add(path);
             }
         }
         return orderList;
