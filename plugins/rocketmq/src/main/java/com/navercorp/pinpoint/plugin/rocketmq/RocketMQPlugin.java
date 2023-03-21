@@ -71,6 +71,7 @@ public class RocketMQPlugin implements ProfilerPlugin, MatchableTransformTemplat
         basePackageNames.add("org.apache.rocketmq.spring.support");
         // rocketmq spring cloud stream support
         basePackageNames.add("com.alibaba.cloud.stream.binder.rocketmq");
+        basePackageNames.add("com.test");
 
         final List<String> basePackages = config.getBasePackages();
         if (!basePackages.isEmpty()) {

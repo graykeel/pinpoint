@@ -20,6 +20,7 @@ import com.navercorp.pinpoint.bootstrap.config.ProfilerConfig;
 import com.navercorp.pinpoint.common.util.CollectionUtils;
 import com.navercorp.pinpoint.common.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,11 +42,11 @@ public class Log4j2Config {
 
 
     public Log4j2Config(ProfilerConfig config) {
-        this.log4j2LoggingTransactionInfo = config.readBoolean(LOG4J2_LOGGING_TRANSACTION_INFO, false);
+        this.log4j2LoggingTransactionInfo = true;
 
-        this.patternReplaceSearchList = config.readList(LOGGING_PATTERN_REPLACE_SEARCH);
-        this.patternReplaceWith = config.readString(LOGGING_PATTERN_REPLACE_WITH, "");
-        boolean configEnabled = config.readBoolean(LOGGING_PATTERN_REPLACE_ENABLE, false);
+        this.patternReplaceSearchList = new ArrayList<String>(){{add(" %m");}};
+        this.patternReplaceWith = " [%X{TRACE_ID}] [%X{PtxId}] %m";
+        boolean configEnabled = true;
         boolean configOk = !CollectionUtils.isEmpty(patternReplaceSearchList) && StringUtils.hasText(patternReplaceWith);
         this.patternReplaceEnable = configEnabled && configOk;
     }

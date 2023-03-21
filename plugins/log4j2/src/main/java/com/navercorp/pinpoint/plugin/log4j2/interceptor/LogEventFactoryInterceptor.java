@@ -27,6 +27,7 @@ import org.apache.logging.log4j.ThreadContext;
 public class LogEventFactoryInterceptor implements AroundInterceptor0 {
 
     private static final String TRANSACTION_ID = "PtxId";
+    private final static String TRACE_ID = "TRACE_ID";
     private static final String SPAN_ID = "PspanId";
     private final TraceContext traceContext;
 
@@ -40,10 +41,12 @@ public class LogEventFactoryInterceptor implements AroundInterceptor0 {
 
         if (trace == null) {
             ThreadContext.remove(TRANSACTION_ID);
+            ThreadContext.remove(TRACE_ID);
             ThreadContext.remove(SPAN_ID);
             return;
         } else {
             ThreadContext.put(TRANSACTION_ID, trace.getTraceId().getTransactionId());
+            ThreadContext.put(TRACE_ID, trace.getTraceId().getTransactionId());
             ThreadContext.put(SPAN_ID, String.valueOf(trace.getTraceId().getSpanId()));
         }
     }

@@ -37,10 +37,10 @@ public class NettyConfig {
     private final boolean channelClose;
 
     public NettyConfig(ProfilerConfig config) {
-        pluginEnable = config.readBoolean(PLUGIN_ENABLE, false);
-        httpCodecEnable = config.readBoolean(HTTP_CODEC_ENABLE, false);
-        param = config.readBoolean("profiler.netty.http.param", false);
-        channelClose = config.readBoolean(NETTY_CHANNEL_CLOSE_ENABLE, true);
+        pluginEnable = true;// config.readBoolean(PLUGIN_ENABLE, false);
+        httpCodecEnable = true;// config.readBoolean(HTTP_CODEC_ENABLE, false);
+        param = true;//config.readBoolean("profiler.netty.http.param", false);
+        channelClose = true;//config.readBoolean(NETTY_CHANNEL_CLOSE_ENABLE, true);
         httpDumpConfig = HttpDumpConfig.getDefault();
     }
 

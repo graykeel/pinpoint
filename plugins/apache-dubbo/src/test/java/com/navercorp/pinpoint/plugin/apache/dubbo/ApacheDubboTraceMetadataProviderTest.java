@@ -17,14 +17,14 @@
 package com.navercorp.pinpoint.plugin.apache.dubbo;
 
 import com.navercorp.pinpoint.common.trace.TraceMetadataSetupContext;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ApacheDubboTraceMetadataProviderTest {
 
     @Mock

@@ -111,6 +111,9 @@
         <module>rocketmq</module>
         <module>agentsdk-async</module>
         <module>spring-data-r2dbc</module>
+        <module>xxljob-plugin</module>
+        <module>strace</module>
+        <module>ons-rocketmq</module>
     </modules>
 
 

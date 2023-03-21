@@ -17,13 +17,13 @@
 package com.navercorp.pinpoint.plugin.apache.dubbo;
 
 import com.navercorp.pinpoint.bootstrap.config.ProfilerConfig;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ApacheDubboConfigurationTest {
 
     @Mock
@@ -33,13 +33,13 @@ public class ApacheDubboConfigurationTest {
     public void isDubboEnabled() {
         ApacheDubboConfiguration configuration = new ApacheDubboConfiguration(config);
 
-        Assertions.assertFalse(configuration.isDubboEnabled());
+        Assert.assertFalse(configuration.isDubboEnabled());
     }
 
     @Test
     public void getDubboBootstrapMains() {
         ApacheDubboConfiguration configuration = new ApacheDubboConfiguration(config);
 
-        Assertions.assertEquals(configuration.getDubboBootstrapMains().size(), 0);
+        Assert.assertEquals(configuration.getDubboBootstrapMains().size(),0);
     }
 }

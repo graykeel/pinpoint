@@ -27,6 +27,7 @@ import com.navercorp.pinpoint.bootstrap.interceptor.SpanRecursiveAroundIntercept
 import com.navercorp.pinpoint.bootstrap.logging.PLogger;
 import com.navercorp.pinpoint.bootstrap.logging.PLoggerFactory;
 import com.navercorp.pinpoint.bootstrap.util.NumberUtils;
+import com.navercorp.pinpoint.common.trace.AnnotationKey;
 import com.navercorp.pinpoint.common.trace.ServiceType;
 import com.navercorp.pinpoint.plugin.apache.dubbo.ApacheDubboConstants;
 import com.navercorp.pinpoint.plugin.apache.dubbo.ApacheDubboProviderMethodDescriptor;
@@ -99,6 +100,9 @@ public class ApacheDubboProviderInterceptor extends SpanRecursiveAroundIntercept
         // Record rpc name, client address, server address.
         recorder.recordRpcName(invocation.getInvoker().getInterface().getSimpleName() + ":" + invocation.getMethodName());
         recorder.recordEndPoint(rpcContext.getLocalAddressString());
+        if (invocation.getArguments()!=null){
+            recorder.recordAttribute(AnnotationKey.HTTP_PARAM,JsonTool.toJson(invocation.getArguments()));
+        }
         if (rpcContext.getRemoteHost() != null) {
             recorder.recordRemoteAddress(rpcContext.getRemoteAddressString());
         } else {

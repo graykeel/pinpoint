@@ -26,6 +26,7 @@ import com.navercorp.pinpoint.bootstrap.context.TraceContext;
  */
 public class LoggingEventOfLog4jInterceptor implements AroundInterceptor0 {
     private static final String TRANSACTION_ID = "PtxId";
+    public final static String TRACE_ID = "TRACE_ID";
     private static final String SPAN_ID = "PspanId";
     
     private final TraceContext traceContext;
@@ -40,10 +41,12 @@ public class LoggingEventOfLog4jInterceptor implements AroundInterceptor0 {
         
         if (trace == null) {
             MDC.remove(TRANSACTION_ID);
+            MDC.remove(TRACE_ID);
             MDC.remove(SPAN_ID);
             return;
         } else {
             MDC.put(TRANSACTION_ID, trace.getTraceId().getTransactionId());
+            MDC.put(TRACE_ID, trace.getTraceId().getTransactionId());
             MDC.put(SPAN_ID, String.valueOf(trace.getTraceId().getSpanId()));
         }
     }

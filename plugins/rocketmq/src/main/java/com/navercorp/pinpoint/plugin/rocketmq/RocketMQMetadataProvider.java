@@ -26,15 +26,19 @@ public class RocketMQMetadataProvider implements TraceMetadataProvider {
 
     @Override
     public void setup(TraceMetadataSetupContext context) {
-        context.addServiceType(RocketMQConstants.ROCKETMQ_CLIENT);
-        context.addServiceType(RocketMQConstants.ROCKETMQ_CLIENT_INTERNAL);
+        try {
+            context.addServiceType(RocketMQConstants.ROCKETMQ_CLIENT);
+            context.addServiceType(RocketMQConstants.ROCKETMQ_CLIENT_INTERNAL);
 
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_TOPIC_ANNOTATION_KEY);
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_PARTITION_ANNOTATION_KEY);
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_OFFSET_ANNOTATION_KEY);
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_BATCH_ANNOTATION_KEY);
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_SEND_STATUS_ANNOTATION_KEY);
-        context.addAnnotationKey(RocketMQConstants.ROCKETMQ_BROKER_SERVER_STATUS_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_TOPIC_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_PARTITION_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_OFFSET_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_BATCH_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_SEND_STATUS_ANNOTATION_KEY);
+            context.addAnnotationKey(RocketMQConstants.ROCKETMQ_BROKER_SERVER_STATUS_ANNOTATION_KEY);
+        }catch (Exception e){
+
+        }
     }
 
 }

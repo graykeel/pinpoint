@@ -64,10 +64,9 @@ public class RocketMQConfig {
     @Override
     public String toString() {
         return "RocketMQConfig{" +
-                "enable=" + enable +
-                ", producerEnable=" + producerEnable +
-                ", consumerEnable=" + consumerEnable +
-                ", basePackages=" + basePackages +
-                '}';
+               "producerEnable=" + producerEnable +
+               ", consumerEnable=" + consumerEnable +
+               ", basePackages=" + basePackages +
+               '}';
     }
 }

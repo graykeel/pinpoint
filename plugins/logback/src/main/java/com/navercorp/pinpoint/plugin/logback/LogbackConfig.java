@@ -18,6 +18,7 @@ import com.navercorp.pinpoint.bootstrap.config.ProfilerConfig;
 import com.navercorp.pinpoint.common.util.CollectionUtils;
 import com.navercorp.pinpoint.common.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,11 +41,11 @@ public class LogbackConfig {
 
 
     public LogbackConfig(ProfilerConfig config) {
-        this.logbackLoggingTransactionInfo = config.readBoolean(LOGBACK_LOGGING_TRANSACTION_INFO, false);
+        this.logbackLoggingTransactionInfo = true;
 
-        this.patternReplaceSearchList = config.readList(LOGBACK_LOGGING_PATTERN_REPLACE_SEARCH);
-        this.patternReplaceWith = config.readString(LOGBACK_LOGGING_PATTERN_REPLACE_WITH, "");
-        boolean configEnabled = config.readBoolean(LOGBACK_LOGGING_PATTERN_REPLACE_ENABLE, false);
+        this.patternReplaceSearchList = new ArrayList<String>(){{add(" %m");}};
+        this.patternReplaceWith = " [%X{TRACE_ID}] [%X{PtxId}] %m";
+        boolean configEnabled = true;
         boolean configOk = !CollectionUtils.isEmpty(patternReplaceSearchList) && StringUtils.hasText(patternReplaceWith);
         this.patternReplaceEnable = configEnabled && configOk;
     }

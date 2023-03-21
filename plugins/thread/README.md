@@ -1,4 +1,5 @@
 ## Thread
+* Version: 1.0
 * Since: Pinpoint 2.0.2
 
 ### Pinpoint Configuration

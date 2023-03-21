@@ -12,14 +12,12 @@ public class ThreadConfig {
     public static final String CALLABLE = "java.util.concurrent.Callable";
     public static final String SUPPLIER = "java.util.function.Supplier";
 
-    private final boolean enable;
     private final String threadMatchPackage;
     private final boolean runnable;
     private final boolean callable;
     private final boolean supplier;
 
     public ThreadConfig(ProfilerConfig config) {
-        this.enable = config.readBoolean("profiler.thread.enable", true);
         this.threadMatchPackage = config.readString("profiler.thread.match.package", null);
 
         List<String> types = config.readList("profiler.thread.support-class");
@@ -35,10 +33,6 @@ public class ThreadConfig {
             }
         }
         return false;
-    }
-
-    public boolean isEnable() {
-        return enable;
     }
 
     public String getThreadMatchPackage() {
@@ -60,11 +54,10 @@ public class ThreadConfig {
     @Override
     public String toString() {
         return "ThreadConfig{" +
-                "enable=" + enable +
-                ", threadMatchPackage='" + threadMatchPackage + '\'' +
+                "threadMatchPackage='" + threadMatchPackage + '\'' +
+                ", supplier=" + supplier +
                 ", runnable=" + runnable +
                 ", callable=" + callable +
-                ", supplier=" + supplier +
                 '}';
     }
 }

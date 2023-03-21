@@ -9,6 +9,7 @@ import com.navercorp.pinpoint.bootstrap.interceptor.AroundInterceptor;
 import com.navercorp.pinpoint.bootstrap.logging.PLogger;
 import com.navercorp.pinpoint.bootstrap.logging.PLoggerFactory;
 import com.navercorp.pinpoint.common.plugin.util.HostAndPort;
+import com.navercorp.pinpoint.common.trace.AnnotationKey;
 import com.navercorp.pinpoint.plugin.dubbo.DubboConstants;
 
 /**
@@ -55,7 +56,9 @@ public class DubboConsumerInterceptor implements AroundInterceptor {
 
             // Then record it as next span id.
             recorder.recordNextSpanId(nextId.getSpanId());
-
+            if (invocation.getArguments()!=null){
+                recorder.recordAttribute(AnnotationKey.HTTP_PARAM,JsonTool.toJson(invocation.getArguments()));
+            }
             // Finally, pass some tracing data to the server.
             // How to put them in a message is protocol specific.
             // This example assumes that the target protocol message can include any metadata (like HTTP headers).
