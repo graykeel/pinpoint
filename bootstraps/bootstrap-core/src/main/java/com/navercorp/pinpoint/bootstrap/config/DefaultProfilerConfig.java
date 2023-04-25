@@ -16,10 +16,11 @@
 
 package com.navercorp.pinpoint.bootstrap.config;
 
-import com.navercorp.pinpoint.bootstrap.config.util.BypassResolver;
-import com.navercorp.pinpoint.bootstrap.config.util.ValueResolver;
 import com.navercorp.pinpoint.bootstrap.util.NumberUtils;
 import com.navercorp.pinpoint.common.annotations.VisibleForTesting;
+import com.navercorp.pinpoint.common.config.Value;
+import com.navercorp.pinpoint.common.config.util.BypassResolver;
+import com.navercorp.pinpoint.common.config.util.ValueResolver;
 import com.navercorp.pinpoint.common.util.StringUtils;
 import com.navercorp.pinpoint.common.util.logger.CommonLogger;
 import com.navercorp.pinpoint.common.util.logger.StdoutCommonLoggerFactory;
@@ -87,6 +88,7 @@ public class DefaultProfilerConfig implements ProfilerConfig , ConfigOnChange {
         this.properties = Objects.requireNonNull(properties, "properties");
     }
 
+    @Override
     public Properties getProperties() {
         return properties;
     }
@@ -105,6 +107,7 @@ public class DefaultProfilerConfig implements ProfilerConfig , ConfigOnChange {
     public void setTransportModule(String transportModule) {
         this.transportModule = TransportModule.parse(transportModule, DEFAULT_TRANSPORT_MODULE);
     }
+
 
 
     @Override
@@ -154,11 +157,13 @@ public class DefaultProfilerConfig implements ProfilerConfig , ConfigOnChange {
         return applicationNamespace;
     }
 
+
     @Override
     public int getLogDirMaxBackupSize() {
         return logDirMaxBackupSize;
     }
 
+    @Override
     public void setConfigOnChange(ConfigOnChange onChange){
         this.onChange = onChange;
     }
@@ -173,6 +178,7 @@ public class DefaultProfilerConfig implements ProfilerConfig , ConfigOnChange {
         return readString(propertyName, defaultValue, BypassResolver.RESOLVER);
     }
 
+    @Override
     public String readString(String propertyName, String defaultValue, ValueResolver valueResolver) {
         Objects.requireNonNull(valueResolver, "valueResolver");
 
